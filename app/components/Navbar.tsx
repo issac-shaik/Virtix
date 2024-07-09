@@ -15,7 +15,7 @@ export async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   return (
-    <nav className="relative max-w-7xl w-full flex md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto py-2 my-4">
+    <nav className="relative max-w-7xl w-full flex md:grid md:grid-cols-12 items-center px-4 md:px-8 mx-auto py-2 my-4 mb-8">
       <div className="md:col-span-3">
         <Link href="/">
           <Image width="120" height="120" src="/Virtix.png" alt="logo" />
@@ -41,7 +41,7 @@ export async function Navbar() {
             </Button>
           </div>
         )}
-        <div className="md:hidden">
+        <div className="md:hidden mx-3">
           <MobileMenu />
         </div>
       </div>

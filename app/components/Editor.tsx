@@ -1,6 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import {
+  EditorContent,
+  JSONContent,
+  useEditor,
+  type Editor,
+} from "@tiptap/react";
 import Starterkit from "@tiptap/starter-kit";
 export const Menubar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
@@ -61,7 +66,13 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
-export function TipTapEditor() {
+export function TipTapEditor({
+  setJson,
+  json,
+}: {
+  setJson: any;
+  json: JSONContent | null;
+}) {
   const editor = useEditor({
     extensions: [Starterkit],
     content: "<p>Hello world</p>",

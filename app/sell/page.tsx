@@ -15,9 +15,12 @@ import { TipTapEditor } from "../components/Editor";
 import { UploadDropzone } from "../lib/uploadthing";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { JSONContent } from "@tiptap/react";
 
 export default function SellRoute() {
-  const [json, setJson] = useState(null);
+  const [json, setJson] = useState<null | JSONContent>(null);
+  const [images, setImages] = useState<null | string[]>(null);
+  const [productFile, setProductFile] = useState<null | string>(null);
   const handleInput = (e: any) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
   };
@@ -62,16 +65,47 @@ export default function SellRoute() {
             </div>
 
             <div className="flex flex-col gap-y-2">
+              <input
+                type="hidden"
+                name="description"
+                value={JSON.stringify(json)}
+              />
               <Label>Description</Label>
               <TipTapEditor json={json} setJson={setJson} />
             </div>
             <div className="flex flex-col gap-y-2">
+              <input
+                type="hudden"
+                name="images"
+                value={JSON.stringify(images)}
+              />
               <Label>Product Images</Label>
-              <UploadDropzone endpoint="imageUploader" />
+              <UploadDropzone
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  setImages(res.map((image) => image.url));
+                }}
+                onUploadError={(err: Error) => {
+                  throw new Error(`${err}`);
+                }}
+              />
             </div>
             <div className="flex flex-col gap-y-2">
+              <input
+                type="hidden"
+                name="productFile"
+                value={productFile ?? ""}
+              />
               <Label>Product File</Label>
-              <UploadDropzone endpoint="productFileUpload" />
+              <UploadDropzone
+                onClientUploadComplete={(res) => {
+                  setProductFile(res[0].url);
+                }}
+                endpoint="productFileUpload"
+                onUploadError={(error: Error) => {
+                  throw new Error(`${error}`);
+                }}
+              />
             </div>
           </CardContent>
           <CardFooter className="mt-5">

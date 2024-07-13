@@ -16,18 +16,23 @@ import { UploadDropzone } from "../lib/uploadthing";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { JSONContent } from "@tiptap/react";
+import { useFormState } from "react-dom";
+import { SellProduct, State } from "../actions";
 
 export default function SellRoute() {
+  const initialState: State = { message: "", status: undefined };
+  const [state, formAction] = useFormState(SellProduct, initialState);
   const [json, setJson] = useState<null | JSONContent>(null);
   const [images, setImages] = useState<null | string[]>(null);
   const [productFile, setProductFile] = useState<null | string>(null);
   const handleInput = (e: any) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
   };
+  console.log(state?.errors);
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8">
       <Card>
-        <form>
+        <form action={formAction}>
           <CardHeader>
             <CardTitle>Sell your product with ease</CardTitle>
             <CardDescription>
@@ -75,7 +80,7 @@ export default function SellRoute() {
             </div>
             <div className="flex flex-col gap-y-2">
               <input
-                type="hudden"
+                type="hidden"
                 name="images"
                 value={JSON.stringify(images)}
               />
@@ -109,7 +114,7 @@ export default function SellRoute() {
             </div>
           </CardContent>
           <CardFooter className="mt-5">
-            <Button>Submit</Button>
+            <Button type="submit">Submit</Button>
           </CardFooter>
         </form>
       </Card>
